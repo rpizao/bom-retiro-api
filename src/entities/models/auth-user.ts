@@ -6,5 +6,11 @@ export interface IAuthUser extends Document {
   email: string;
   passw: string;
   salt: string;
-  clubIdentifier: string;
+  department: string;
+}
+
+export interface AuthToken {
+  user: {fullname: string, department: string};
+  token: string;
+
 }

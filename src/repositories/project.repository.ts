@@ -27,7 +27,7 @@ export class ProjectRepository extends BasicRepository<Project> {
 
     let progress = p.progress[p.progress.length - 1];
     if(!progress.comments) progress.comments = [];
-    progress.comments.push({...comment, date: DateUtils.toDateString(new Date())});
+    progress.comments.push({...comment, date: DateUtils.toYearMonthDate(new Date())});
 
     return await this.Model.create(p);
   }

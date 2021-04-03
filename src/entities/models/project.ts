@@ -10,6 +10,7 @@ export interface Project extends Document {
   expiresIn?: string;
   author: string;
   finished: boolean;
+  priority: string;
   progress?: Progress[];
 }
 

@@ -1,6 +1,8 @@
 import { Model } from 'mongoose';
-import { IAuthUser } from '../entities/models/auth-user';
+import { AuthToken, IAuthUser } from '../entities/models/auth-user';
 import { CryptoSaltUtils } from '../utils/crypto-salt-utils';
+import { DateUtils } from '../utils/date-utils';
+import { HashUtils } from '../utils/hash-utils';
 import { BasicRepository } from './basic-repository';
 
 export class AuthRepository extends BasicRepository<IAuthUser> {
@@ -13,16 +15,20 @@ export class AuthRepository extends BasicRepository<IAuthUser> {
     this.Model = this.getModel("AuthUserModel");
   }
 
-  async login(credentials: {email: string, passw: string, club: string}): Promise<IAuthUser | null> {
-    const user = await this.Model.findOne({"email": credentials.email});
+  async login(credentials: {username: string, password: string}): Promise<AuthToken | null> {
+    const user = await this.Model.findOne({"email": credentials.username});
     if (user == null) return null;
 
-    const sha = CryptoSaltUtils.encodeSha512(credentials.passw, user.salt);
+    const sha = CryptoSaltUtils.encodeSha512(credentials.password, user.salt);
     const isAuthUser = (user.passw == sha.passw);
+
     if(!isAuthUser) return null;
 
-    // TODO: Criar um sha pra validar as próximas requisições.
-    return <IAuthUser> { name: user.name, email: user.email };
+    return {token: HashUtils.hash(DateUtils.toYearMonthDate(new Date())), user: {fullname: user.name, department: user.department}};
+  }
+
+  async logout(credentials: {username: string, password: string}): Promise<void> {
+    // logout não demanda nenhum operação de back-end, no momento.
   }
 
 }

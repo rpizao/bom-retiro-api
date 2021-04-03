@@ -6,6 +6,7 @@ import { Server } from "http";
 import { AuthRepository } from "./repositories/auth.repository";
 import { IndicatorRepository } from "./repositories/indicator.repository";
 import { ProjectRepository } from "./repositories/project.repository";
+import { CryptoSaltUtils } from "./utils/crypto-salt-utils";
 
 
 dotenv.config({ path: ".env" });
@@ -22,49 +23,55 @@ app.use(express.json());
 app.route('/api/login').post((req, res) => {
   var repo = new AuthRepository();
   repo.login(req.body).then((result) => {
-    if(result) {
-      /* res.writeHead(200, {
-        "Set-Cookie": "token=encryptedstring; HttpOnly",
-        "Access-Control-Allow-Credentials": "true"
-      }).status(200).send(result); */
-      res.status(200).send(result);
-    }
-    else res.status(403).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
+  }).catch(r => console.log(r));
+})
+
+app.route('/api/logout').get((req, res) => {
+  var repo = new AuthRepository();
+  repo.logout(req.body).then(() => {
+    res.status(200).send();
   }).catch(r => console.log(r));
 })
 
 app.route('/api/indicators').get((req, res) => {
   var repo = new IndicatorRepository();
   repo.list().then((result) => {
-      res.status(200).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
   }).catch(r => console.log(r));
 })
 
 app.route('/api/indicators/:code').get((req, res) => {
   var repo = new IndicatorRepository();
   repo.get(req.params.code).then((result) => {
-      res.status(200).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
   }).catch(r => console.log(r));
 })
 
 app.route('/api/projects').get((req, res) => {
   var repo = new ProjectRepository();
   repo.list().then((result) => {
-      res.status(200).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
   }).catch(r => console.log(r));
 })
 
 app.route('/api/projects/:code').get((req, res) => {
   var repo = new ProjectRepository();
   repo.get(req.params.code).then((result) => {
-      res.status(200).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
   }).catch(r => console.log(r));
 })
 
 app.route('/api/projects/:code/comment').put((req, res) => {
   var repo = new ProjectRepository();
   repo.addComment(req.params.code, req.body).then((result) => {
-      res.status(200).send(result);
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
   }).catch(r => console.log(r));
 })
 

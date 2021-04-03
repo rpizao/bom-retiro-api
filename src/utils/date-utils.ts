@@ -14,7 +14,7 @@ export class DateUtils {
     return new Date(dateTime.year, dateTime.month - 1, dateTime.day);
   }
 
-  static toDateString(date: Date): string{
+  static toYearMonthDate(date: Date): string{
     return "" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
   }
 

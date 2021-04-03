@@ -9,7 +9,7 @@ export class AuthUserSchema extends CollectionSchema<IAuthUser> {
       email: String,
       passw: String,
       salt: String,
-      clubIdentifier: String
+      department: String
     });
   }
 
