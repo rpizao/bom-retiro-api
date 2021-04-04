@@ -8,14 +8,33 @@ export class DateUtils {
     return today;
   }
 
-  static toDate(yearMonthDate?: string): Date{
+  static parseDate(yearMonthDate?: string): Date{
     if(!yearMonthDate) return DateUtils.now();
     const dateTime = DateTime.fromISO(yearMonthDate);
     return new Date(dateTime.year, dateTime.month - 1, dateTime.day);
   }
 
-  static toYearMonthDate(date: Date): string{
-    return "" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+  static toDate(date: Date): string{
+    const year = DateUtils.formatValue(date.getFullYear());
+    const month = DateUtils.formatValue(date.getMonth() + 1);
+    const day = DateUtils.formatValue(date.getDate());
+    return year + "-" + month + "-" + day;
+  }
+
+  static toTime(date: Date): string {
+    const hours = DateUtils.formatValue(date.getHours());
+    const min = DateUtils.formatValue(date.getMinutes());
+    return hours + ":" + min;
+  }
+
+  static formatValue(value: number): string {
+    return value > 9 ? value.toString() : "0" + value;
+  }
+
+  static toDateTime(date: Date): string{
+    const dateString = this.toDate(date);
+    const timeString = this.toTime(date);
+    return dateString + "T" + timeString;
   }
 
   static isBeforeNow(date: Date): boolean {

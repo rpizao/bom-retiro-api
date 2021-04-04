@@ -24,7 +24,7 @@ export class AuthRepository extends BasicRepository<IAuthUser> {
 
     if(!isAuthUser) return null;
 
-    return {token: HashUtils.hash(DateUtils.toYearMonthDate(new Date())), user: {fullname: user.name, department: user.department}};
+    return {token: HashUtils.hash(DateUtils.toDate(new Date())), user: {fullname: user.name, department: user.department}};
   }
 
   async logout(credentials: {username: string, password: string}): Promise<void> {

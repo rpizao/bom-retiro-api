@@ -93,7 +93,7 @@ app.route('/api/projects/:code/state').put((req, res) => {
 
 app.route('/api/projects/:code/cancel').put((req, res) => {
   var repo = new ProjectRepository();
-  repo.updateStatus(req.params.code).then((result) => {
+  repo.cancel(req.params.code).then((result) => {
     const code = result ? 200 : 403;
     res.status(code).send(result);
   }).catch(r => console.log(r));

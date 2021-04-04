@@ -25,6 +25,7 @@ export class ProjectSchema extends CollectionSchema<Project> {
       finished: Boolean,
       priority: String,
       nextState: String,
+      state: String,
       progress: [
         {
           state: String,

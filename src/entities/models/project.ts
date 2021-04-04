@@ -12,11 +12,12 @@ export interface Project extends Document {
   finished: boolean;
   priority: string;
   nextState?: string;
+  state: string;
   progress?: Progress[];
 }
 
 export interface Progress {
-  state: string;
+  state?: string;
   percentual?: number;
   lock: boolean;
   comments?: ProgressComment[];
