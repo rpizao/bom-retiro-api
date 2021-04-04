@@ -59,6 +59,14 @@ app.route('/api/projects').get((req, res) => {
   }).catch(r => console.log(r));
 })
 
+app.route('/api/projects').post((req, res) => {
+  var repo = new ProjectRepository();
+  repo.save(req.body).then((result) => {
+    const code = result ? 200 : 403;
+    res.status(code).send(result);
+  }).catch(r => console.log(r));
+})
+
 app.route('/api/projects/:code').get((req, res) => {
   var repo = new ProjectRepository();
   repo.get(req.params.code).then((result) => {

@@ -23,6 +23,7 @@ export class ProjectSchema extends CollectionSchema<Project> {
       expiresIn: String,
       author: String,
       finished: Boolean,
+      priority: String,
       progress: [
         {
           state: String,
