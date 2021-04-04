@@ -24,6 +24,7 @@ export class ProjectSchema extends CollectionSchema<Project> {
       author: String,
       finished: Boolean,
       priority: String,
+      nextState: String,
       progress: [
         {
           state: String,
@@ -35,8 +36,7 @@ export class ProjectSchema extends CollectionSchema<Project> {
               date: String,
               author: String
             }
-          ],
-          nextStates: []
+          ]
         }
       ]
     });
