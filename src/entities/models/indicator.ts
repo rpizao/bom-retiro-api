@@ -1,7 +1,6 @@
 import { Document } from "mongoose";
 
 export interface Indicator extends Document {
-  _id: string;
   code: string;
   title: string;
   classifier: string
