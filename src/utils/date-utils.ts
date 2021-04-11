@@ -14,7 +14,9 @@ export class DateUtils {
     return new Date(dateTime.year, dateTime.month - 1, dateTime.day);
   }
 
-  static toDate(date: Date): string{
+  static toDate(date?: Date): string{
+    if(!date) date = DateUtils.now();
+
     const year = DateUtils.formatValue(date.getFullYear());
     const month = DateUtils.formatValue(date.getMonth() + 1);
     const day = DateUtils.formatValue(date.getDate());
@@ -31,7 +33,9 @@ export class DateUtils {
     return value > 9 ? value.toString() : "0" + value;
   }
 
-  static toDateTime(date: Date): string{
+  static toDateTime(date?: Date): string{
+    if(!date) date = new Date();
+
     const dateString = this.toDate(date);
     const timeString = this.toTime(date);
     return dateString + "T" + timeString;

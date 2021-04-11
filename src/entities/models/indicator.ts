@@ -6,8 +6,7 @@ export interface Indicator extends Document {
   classifier: string
   description: string;
   configuration: Configuration;
-  source1d?: SerieIndicator[];
-  source2d?: DataIndicator[];
+  source?: DataIndicator[];
 }
 
 export interface DataIndicator {
@@ -21,6 +20,5 @@ export interface SerieIndicator {
 }
 
 export interface Configuration {
-  dimension: string;
   maxY: string;
 }

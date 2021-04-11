@@ -13,13 +13,14 @@ export interface Project extends Document {
   priority: string;
   nextState?: string;
   state: string;
-  progress?: Progress[];
+  progress: Progress[];
 }
 
 export interface Progress {
   state?: string;
   percentual?: number;
   lock: boolean;
+  created: string;
   comments?: ProgressComment[];
 }
 

@@ -17,7 +17,7 @@ export class IndicatorRepository extends BasicRepository<Indicator> {
   }
 
   async list(): Promise<Indicator[] | null> {
-    return this.Model.find({}, {'_id': 0, 'source1d': 0, 'source2d': 0});
+    return this.Model.find({}, {'_id': 0, 'source': 0});
   }
 
 }

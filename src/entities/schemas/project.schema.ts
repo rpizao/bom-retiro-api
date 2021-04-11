@@ -31,6 +31,7 @@ export class ProjectSchema extends CollectionSchema<Project> {
           state: String,
           percentual: Number,
           lock: Boolean,
+          dateFinish: String,
           comments: [
             {
               text: String,

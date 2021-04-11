@@ -25,7 +25,7 @@ export class ProjectRepository extends BasicRepository<Project> {
   }
 
   async save(project: Project): Promise<Project | null> {
-    const today = DateUtils.toDate(new Date());
+    const today = DateUtils.toDate();
 
     project.code = HashUtils.hash(project.title);
     project.status = "PRAZO";
@@ -36,7 +36,8 @@ export class ProjectRepository extends BasicRepository<Project> {
     project.progress.push({
       state: "ANÁLISE",
       percentual: 34,
-      lock: false
+      lock: false,
+      created: DateUtils.toDate()
     });
 
     return await this.Model.create(project);
@@ -48,7 +49,7 @@ export class ProjectRepository extends BasicRepository<Project> {
 
     let progress = p.progress[p.progress.length - 1];
     if(!progress.comments) progress.comments = [];
-    progress.comments.push({...comment, date: DateUtils.toDateTime(new Date())});
+    progress.comments.push({...comment, date: DateUtils.toDateTime()});
 
     return await this.Model.create(p);
   }
@@ -67,7 +68,7 @@ export class ProjectRepository extends BasicRepository<Project> {
 
   async updateStatus(code: string): Promise<Project | null> {
     let p = await this.get(code);
-    if(p == null || !p.progress) return null;
+    if(p == null) return null;
 
     if(!p.nextState){
       // FINALIZADO
@@ -84,7 +85,8 @@ export class ProjectRepository extends BasicRepository<Project> {
     p.progress.push({
       lock: p.status == "FINALIZADO" ? true: false,
       state: p.state,
-      percentual: 33
+      percentual: 33,
+      created: DateUtils.toDate()
     });
 
     return await this.Model.create(p);
@@ -102,7 +104,8 @@ export class ProjectRepository extends BasicRepository<Project> {
     p.progress.push({
       lock: true,
       state: "CANCELADO",
-      percentual: 33
+      percentual: 33,
+      created: DateUtils.toDate()
     });
 
     return await this.Model.create(p);

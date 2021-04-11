@@ -21,13 +21,7 @@ export class IndicatorSchema extends CollectionSchema<Indicator> {
         maxY: String
       },
       dimension: String,
-      source1D: [
-        {
-          name: String,
-          value: Number
-        }
-      ],
-      source2D: [
+      source: [
         {
           name: String,
           series: [
