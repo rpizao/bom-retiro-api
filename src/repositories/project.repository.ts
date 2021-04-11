@@ -70,7 +70,9 @@ export class ProjectRepository extends BasicRepository<Project> {
     let p = await this.get(code);
     if(p == null) return null;
 
-    if(!p.nextState){
+    if(!p.nextState) return p;
+
+    if(p.nextState == "FINALIZADO"){
       // FINALIZADO
       p.finished = true;
       p.state = "FINALIZADO";
@@ -80,10 +82,12 @@ export class ProjectRepository extends BasicRepository<Project> {
       p.nextState = this.getNextState(p.state);
     }
 
+    this.lockLastProgressForComments(p);
+
     p.status = this.getActualStatus(p);
 
     p.progress.push({
-      lock: p.status == "FINALIZADO" ? true: false,
+      lock: p.state == "FINALIZADO" ? true: false,
       state: p.state,
       percentual: 33,
       created: DateUtils.toDate()
@@ -101,6 +105,8 @@ export class ProjectRepository extends BasicRepository<Project> {
     p.status = this.getActualStatus(p);
     p.finished = true;
 
+    this.lockLastProgressForComments(p);
+
     p.progress.push({
       lock: true,
       state: "CANCELADO",
@@ -109,6 +115,11 @@ export class ProjectRepository extends BasicRepository<Project> {
     });
 
     return await this.Model.create(p);
+  }
+
+  private lockLastProgressForComments(project: Project) {
+    let progress = project.progress[project.progress.length - 1];
+    progress.lock = true;
   }
 
 }
